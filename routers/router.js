@@ -8,10 +8,7 @@ module.exports = (app) => {
   const screenshotController = require("../controllers/screenshotController");
   const getGenreDetailsController = require("../controllers/genreDetailsController");
   const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
-  const getAllGameDetailsController = require("../controllers/fetchAllGames");
   const getTenGameDetailsController = require("../controllers/fetchTengamesController");
-  const fetchGameByIDController = require("../controllers/fetchGameByID");
-  const fetchGameScreenshotByIDController = require("../controllers/fetchGameScreenshotByID");
   const GameController = require("../controllers/GameController");
   //Create endpoint to database
   app
@@ -33,9 +30,9 @@ module.exports = (app) => {
 
   app.route("/games/getPlatformDetails").get(getPlatformDetailsContoller.getPlatformDetails);
 
-  app.route("/games/getAllGameDetails").get(getAllGameDetailsController.getAllGameDetails);
+  app.route("/games/getAllGameDetails").get(GameController.getAllGameDetails);
 
-  app.route("/games/getTenGameDetails").get(getTenGameDetailsController.getTenGameDetails);
+  app.route("/games/getTenGameDetails").get(GameController.getTenGameDetails);
 
   app.route("/games/fetchGameByID").get(GameController.fetchGameByID);
 
