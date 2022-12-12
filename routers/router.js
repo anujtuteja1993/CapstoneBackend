@@ -8,7 +8,6 @@ module.exports = (app) => {
   const screenshotController = require("../controllers/screenshotController");
   const getGenreDetailsController = require("../controllers/genreDetailsController");
   const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
-  const getTenGameDetailsController = require("../controllers/fetchTengamesController");
   const GameController = require("../controllers/GameController");
   //Create endpoint to database
   app
