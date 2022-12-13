@@ -9,6 +9,7 @@ module.exports = (app) => {
   const getGenreDetailsController = require("../controllers/genreDetailsController");
   const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
   const GameController = require("../controllers/GameController");
+
   //Create endpoint to database
   app
     .route("/customers/getCustomerPurchaseByCustomerId")
@@ -36,6 +37,8 @@ module.exports = (app) => {
   app.route("/games/fetchGameByID").get(GameController.fetchGameByID);
 
   app.route("/games/fetchGameScreenshotByID").get(GameController.fetchGameScreenshotByID);
+
+  app.route("/games/getGamePlatformDetailsByID").get(GameController.getGamePlatformDetailsbyID);
   // Handling 404 request from the client
   app.use((req, res, next) => {
     res.status(404).send("<h1>Page not found on the server</h1>");
