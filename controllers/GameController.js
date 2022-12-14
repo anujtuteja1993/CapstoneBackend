@@ -50,15 +50,17 @@ exports.getTenGameDetails = async (req, res) => {
 
 exports.fetchGameByID = async (req, res) => {
     try {
-        if (!req.query.game_id) {
+        
+        var gameIds = JSON.parse(req.query.game_ids);
+
+        if (!gameIds) {
             throw Error("Missing Game Id");
         }
 
-        const game_id = req.query.game_id;
-        console.log(game_id);
-
         const connection = mysql.createConnection(config);
-        let sql = `SELECT * FROM game where id = ${game_id}`;
+        let sql = `SELECT * FROM game where id IN (${gameIds})`;
+
+        console.log(sql);
 
         connection.query(sql, (error, results, fields) => {
             if (error) {
@@ -69,6 +71,7 @@ exports.fetchGameByID = async (req, res) => {
         });
 
         connection.end();
+        
     } catch (e) {
         res.status(400);
         res.json({ success: false, message: e.message });
