@@ -50,28 +50,26 @@ exports.getTenGameDetails = async (req, res) => {
 
 exports.fetchGameByID = async (req, res) => {
     try {
-        
+
         var gameIds = JSON.parse(req.query.game_ids);
-
-        if (!gameIds) {
-            throw Error("Missing Game Id");
-        }
-
-        const connection = mysql.createConnection(config);
-        let sql = `SELECT * FROM game where id IN (${gameIds})`;
-
-        console.log(sql);
-
-        connection.query(sql, (error, results, fields) => {
-            if (error) {
-                throw Error(error.message);
-            }
+        if (gameIds.length === 0) {
             res.status(200);
-            res.json({ success: true, data: results });
-        });
+            res.json({ success: true, data: [] });
+        }
+        else {
+            const connection = mysql.createConnection(config);
+            let sql = `SELECT * FROM game where id IN (${gameIds})`;
 
-        connection.end();
-        
+            connection.query(sql, (error, results, fields) => {
+                if (error) {
+                    throw Error(error.message);
+                }
+                res.status(200);
+                res.json({ success: true, data: results });
+            });
+
+            connection.end();
+        }
     } catch (e) {
         res.status(400);
         res.json({ success: false, message: e.message });
@@ -112,7 +110,7 @@ exports.getGamePlatformDetailsbyID = async (req, res) => {
         }
         const game_id = req.query.game_id;
         const connection = mysql.createConnection(config);
-        
+
         let sql = `SELECT platform.platform_name
         FROM platform, game, game_platform
         WHERE game.id = ${game_id}
