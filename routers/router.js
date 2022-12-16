@@ -39,7 +39,12 @@ module.exports = (app) => {
   app.route("/games/fetchGameScreenshotByID").get(GameController.fetchGameScreenshotByID);
 
   app.route("/games/getGamePlatformDetailsByID").get(GameController.getGamePlatformDetailsbyID);
+
+  app.route("/games/getGamesbyGenre").get(GameController.getGamesByGenre);
+
+  app.route("/games/searchGamesByName").get(GameController.searchGamesByName);
   // Handling 404 request from the client
+
   app.use((req, res, next) => {
     res.status(404).send("<h1>Page not found on the server</h1>");
   });

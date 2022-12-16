@@ -51,7 +51,7 @@ exports.getTenGameDetails = async (req, res) => {
 exports.fetchGameByID = async (req, res) => {
     try {
 
-        var gameIds = JSON.parse(req.query.game_ids);
+        let gameIds = JSON.parse(req.query.game_ids);
         if (gameIds.length === 0) {
             res.status(200);
             res.json({ success: true, data: [] });
@@ -127,6 +127,78 @@ exports.getGamePlatformDetailsbyID = async (req, res) => {
         });
 
         connection.end();
+    } catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
+
+exports.getGamesByGenre = async (req, res) => {
+    try {
+
+        let genres = JSON.parse(req.query.genres);
+
+
+        genres.forEach((genre, index) => {
+            genres[index] = "'" + genre + "'";
+        });
+
+        if (genres.length === 0) {
+            res.status(200);
+            res.json({ success: true, data: [] });
+        }
+        else {
+            const connection = mysql.createConnection(config);
+            let sql = `SELECT game.id, game.game_name, game.game_image, genre_name
+            FROM genre, game, game_genre
+            WHERE game_genre.genre_id = genre.id
+            AND game.id = game_genre.game_id
+            AND genre.genre_name IN (${genres})
+            ORDER BY game.game_name;`;
+
+            connection.query(sql, (error, results, fields) => {
+                if (error) {
+                    throw Error(error.message);
+                }
+                res.status(200);
+                res.json({ success: true, data: results });
+            });
+
+            connection.end();
+        }
+    } catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
+
+exports.searchGamesByName = async (req, res) => {
+    try {
+
+        let game_name = req.query.game_name;
+
+        console.log(game_name);
+        if (game_name === "") {
+            res.status(200);
+            res.json({ success: true, data: [] });
+        }
+
+        else {
+            const connection = mysql.createConnection(config);
+            let sql = `SELECT * FROM game WHERE game_name LIKE '%${game_name}%';`;
+
+            connection.query(sql, (error, results, fields) => {
+                if (error) {
+                    throw Error(error.message);
+                }
+                res.status(200);
+                res.json({ success: true, data: results });
+            });
+
+            connection.end();
+        }
     } catch (e) {
         res.status(400);
         res.json({ success: false, message: e.message });
