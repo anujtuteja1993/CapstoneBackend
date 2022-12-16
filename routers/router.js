@@ -1,7 +1,6 @@
 "use strict";
 
 module.exports = (app) => {
-  const customerController = require("../controllers/CustomerController");
   const gamesController = require("../controllers/gamesController");
   const platformController = require("../controllers/platformController");
   const genreController = require("../controllers/genreController");
@@ -9,15 +8,9 @@ module.exports = (app) => {
   const getGenreDetailsController = require("../controllers/genreDetailsController");
   const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
   const GameController = require("../controllers/GameController");
+  const userController = require("../controllers/userController");
 
   //Create endpoint to database
-  app
-    .route("/customers/getCustomerPurchaseByCustomerId")
-    .get(customerController.getCustomerPurchaseByCustomerId);
-  app
-    .route("/customers/getAllPurchaseByCustomer")
-    .get(customerController.getAllPurchaseByCustomer);
-
   app.route("/games/getGameDetails").get(gamesController.getGameDetails);
   
   app.route("/games/getGamePlatforms").get(platformController.getGamePlatforms);
@@ -43,6 +36,9 @@ module.exports = (app) => {
   app.route("/games/getGamesbyGenre").get(GameController.getGamesByGenre);
 
   app.route("/games/searchGamesByName").get(GameController.searchGamesByName);
+
+  app.route("/users/registerUser").post(userController.registerUser);
+  
   // Handling 404 request from the client
 
   app.use((req, res, next) => {
