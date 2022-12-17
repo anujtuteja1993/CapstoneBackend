@@ -9,6 +9,9 @@ const jwt = require("jsonwebtoken");
 exports.registerUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
+        if(!email || !password || !firstName || !lastName) {
+            return res.status(400).json({ success: false, msg: "One or more fields missing" });
+        }
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const connection = mysql.createConnection(config);
@@ -31,8 +34,13 @@ exports.registerUser = async (req, res) => {
 
 exports.userLogin = async (req, res) => {
     try {
-        console.log("login attempt")
+
         const { email, password } = req.body;
+
+        if(!email || !password) {
+            return res.status(400).json({ success: false, msg: "Email or Password missing" });
+        }
+
         const connection = mysql.createConnection(config);
         let sql = `SELECT * FROM user WHERE email = "${email}";`;
 
@@ -73,6 +81,7 @@ exports.userLogin = async (req, res) => {
                 expiresIn: "1d",
             }
         );
+        
         let emailQueryUpdate = await new Promise((resolve, reject) => {
             const connection = mysql.createConnection(config);
             let sql = `UPDATE user SET refresh_token = "${refreshToken}" WHERE id = "${id}";`;
@@ -97,7 +106,7 @@ exports.userLogin = async (req, res) => {
         res.json({ success: true, msg: "Log in successful", token: accessToken });
     } catch (error) {
         console.log(error);
-        res.status(404).json({ msg: "Email or Password not correct" });
+        res.status(404).json({ msg: "Email or Password is incorrect." });
     }
 };
 
@@ -175,7 +184,6 @@ exports.updateUserDetails = async (req, res) => {
 
         let sql = `UPDATE user SET email = ${newEmail} WHERE email = ${email}`;
 
-        console.log(sql);
         connection.query(sql, (error, results, fields) => {
             if (error) {
                 throw Error(error.message);
@@ -198,6 +206,7 @@ exports.deleteUser = async (req, res) => {
         const connection = mysql.createConnection(config);
 
         let sql = `DELETE from user WHERE email = ${email}`
+
         connection.query(sql, (error, results, fields) => {
             if (error) {
                 throw Error(error.message);
