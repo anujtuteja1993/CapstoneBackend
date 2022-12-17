@@ -166,3 +166,50 @@ exports.getUserDetails = async (req, res) => {
         throw Error(e.message);
     }
 };
+
+exports.updateUserDetails = async (req, res) => {
+    try {
+        const { email, newEmail } = req.query;
+
+        const connection = mysql.createConnection(config);
+
+        let sql = `UPDATE user SET email = ${newEmail} WHERE email = ${email}`;
+
+        console.log(sql);
+        connection.query(sql, (error, results, fields) => {
+            if (error) {
+                throw Error(error.message);
+            }
+            res.json({ success: true, message: "User has been updated", data: results});
+        });
+
+        connection.end();
+    }
+    catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const { email } = req.query;
+        const connection = mysql.createConnection(config);
+
+        let sql = `DELETE from user WHERE email = ${email}`
+        connection.query(sql, (error, results, fields) => {
+            if (error) {
+                throw Error(error.message);
+            }
+            res.json({ success: true, message: "User has been deleted", data: results});
+        });
+
+        connection.end();
+    }
+    catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
