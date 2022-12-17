@@ -39,6 +39,11 @@ module.exports = (app) => {
 
   app.route("/users/registerUser").post(userController.registerUser);
   
+  app.route("/users/userLogin").post(userController.userLogin);
+
+  app.route("/users/userLogout").post(userController.userLogout)
+
+  app.route("/users/getUserDetails").get(userController.getUserDetails);
   // Handling 404 request from the client
 
   app.use((req, res, next) => {
