@@ -205,3 +205,30 @@ exports.searchGamesByName = async (req, res) => {
         throw Error(e.message);
     }
 };
+
+exports.updateGamePrices = async (req, res) => {
+
+    try {
+        const connection = mysql.createConnection(config);
+        let sql = `UPDATE game SET Price = CASE 
+        WHEN (YEAR(release_date) < 1990) THEN 3.99
+        WHEN (YEAR(release_date) < 2000) THEN 7.99
+        WHEN (YEAR(release_date) < 2010) THEN 20.99
+        WHEN (YEAR(release_date) < 2020) THEN 39.99
+        ELSE 59.99 END;`;
+
+        connection.query(sql, (error, results, fields) => {
+            if (error) {
+                throw Error(error.message);
+            }
+            res.status(200);
+            res.json({ success: true, messages: "Game Prices have been updated", data: results });
+        });
+
+        connection.end();
+    } catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};

@@ -48,6 +48,8 @@ module.exports = (app) => {
   app.route("/users/updateUser").put(userController.updateUserDetails);
 
   app.route("/users/deleteUser").delete(userController.deleteUser);
+
+  app.route("/games/updateGamePrices").put(GameController.updateGamePrices);
   // Handling 404 request from the client
 
   app.use((req, res, next) => {

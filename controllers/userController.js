@@ -5,20 +5,25 @@ const config = require("../connection/config.js");
 const connectionConfig = require("../connection/connectionConfig.js");
 const { request } = require("express");
 const jwt = require("jsonwebtoken");
+const e = require("express");
 
 exports.registerUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
+
         if(!email || !password || !firstName || !lastName) {
             return res.status(400).json({ success: false, msg: "One or more fields missing" });
         }
+
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const connection = mysql.createConnection(config);
         let sql = `INSERT INTO user (first_name, last_name, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${hashedPassword}')`;
         connection.query(sql, (error, results, fields) => {
             if (error) {
-                throw Error(error.message);
+                res.json(400);
+                res.json({ success: false, message: "The user already exists"});
+                //throw Error(error.message);
             }
             res.json({ success: true, message: "User successfully registered" });
         });
