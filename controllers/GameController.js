@@ -48,6 +48,31 @@ exports.getTenGameDetails = async (req, res) => {
     }
 };
 
+exports.getCriticallyAcclaimedGames = async (req, res) => {
+    try {
+
+        const connection = mysql.createConnection(config);
+        let sql = `SELECT * FROM GAME
+        WHERE Metacritic > 90
+        ORDER BY release_date DESC
+        LIMIT 20;`;
+
+        connection.query(sql, (error, results, fields) => {
+            if (error) {
+                throw Error(error.message);
+            }
+            res.status(200);
+            res.json({ success: true, data: results });
+        });
+
+        connection.end();
+    } catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
+
 exports.fetchGameByID = async (req, res) => {
     try {
 
