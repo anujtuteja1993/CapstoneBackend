@@ -29,6 +29,10 @@ module.exports = (app) => {
 
   app.route("/games/getCriticallyAcclaimedGames").get(GameController.getCriticallyAcclaimedGames);
 
+  app.route("/games/getHighestUserRatedGames").get(GameController.getHighestUserRatedGames);
+
+  app.route("/games/getClassicGames").get(GameController.getClassicGames);
+
   app.route("/games/fetchGameByID").get(GameController.fetchGameByID);
 
   app.route("/games/fetchGameScreenshotByID").get(GameController.fetchGameScreenshotByID);

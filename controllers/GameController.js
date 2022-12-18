@@ -73,6 +73,56 @@ exports.getCriticallyAcclaimedGames = async (req, res) => {
     }
 };
 
+exports.getHighestUserRatedGames = async (req, res) => {
+    try {
+
+        const connection = mysql.createConnection(config);
+        let sql = `SELECT * FROM GAME
+        WHERE rating > 4
+        ORDER BY rating DESC
+        LIMIT 20;`;
+
+        connection.query(sql, (error, results, fields) => {
+            if (error) {
+                throw Error(error.message);
+            }
+            res.status(200);
+            res.json({ success: true, data: results });
+        });
+
+        connection.end();
+    } catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
+
+exports.getClassicGames = async (req, res) => {
+    try {
+
+        const connection = mysql.createConnection(config);
+        let sql = `SELECT * FROM GAME
+        WHERE YEAR(release_date) < 2010
+        ORDER BY rating DESC
+        LIMIT 20;`;
+
+        connection.query(sql, (error, results, fields) => {
+            if (error) {
+                throw Error(error.message);
+            }
+            res.status(200);
+            res.json({ success: true, data: results });
+        });
+
+        connection.end();
+    } catch (e) {
+        res.status(400);
+        res.json({ success: false, message: e.message });
+        throw Error(e.message);
+    }
+};
+
 exports.fetchGameByID = async (req, res) => {
     try {
 
@@ -203,8 +253,6 @@ exports.searchGamesByName = async (req, res) => {
     try {
 
         let game_name = req.query.game_name;
-
-        console.log(game_name);
         if (game_name === "") {
             res.status(200);
             res.json({ success: true, data: [] });
