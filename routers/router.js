@@ -1,27 +1,31 @@
 "use strict";
 
 module.exports = (app) => {
-  const gamesController = require("../controllers/gamesController");
-  const platformController = require("../controllers/platformController");
-  const genreController = require("../controllers/genreController");
-  const screenshotController = require("../controllers/screenshotController");
-  const getGenreDetailsController = require("../controllers/genreDetailsController");
-  const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
+
+  const rawgApiController = require("../controllers/rawgApiController");
+
+  // const gamesController = require("../controllers/gamesController");
+  // const platformController = require("../controllers/platformController");
+  // const genreController = require("../controllers/genreController");
+  // const screenshotController = require("../controllers/screenshotController");
+  // const getGenreDetailsController = require("../controllers/genreDetailsController");
+  // const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
+
   const GameController = require("../controllers/GameController");
   const userController = require("../controllers/userController");
 
   //Create endpoint to database
-  app.route("/games/getGameDetails").get(gamesController.getGameDetails);
+  app.route("/api/getGameDetailsFromApi").get(rawgApiController.getGameDetails);
   
-  app.route("/games/getGamePlatforms").get(platformController.getGamePlatforms);
+  app.route("/api/getGenreDetailsFromApi").get(rawgApiController.getGenreDetails);
 
-  app.route("/games/getGameGenres").get(genreController.getGameGenres);
+  app.route("/api/getPlatformDetailsFromApi").get(rawgApiController.getPlatformDetails);
+  
+  app.route("/api/getGamePlatformsFromApi").get(rawgApiController.getGamePlatforms);
 
-  app.route("/games/getScreenshots").get(screenshotController.getScreenshots);
+  app.route("/api/getGameGenresFromApi").get(rawgApiController.getGameGenres);
 
-  app.route("/games/getGenreDetails").get(getGenreDetailsController.getGenreDetails);
-
-  app.route("/games/getPlatformDetails").get(getPlatformDetailsContoller.getPlatformDetails);
+  app.route("/api/getScreenshotsFromApi").get(rawgApiController.getScreenshots);
 
   app.route("/games/getAllGameDetails").get(GameController.getAllGameDetails);
 

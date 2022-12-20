@@ -74,7 +74,7 @@ exports.userLogin = async (req, res) => {
             emailQueryResult.data[0].password
         );
 
-        if (!match) return res.status(400).json({ msg: "Wrong Password" });
+        if (!match) return res.status(400).json({ msg: "Email or Password is incorrect" });
         const id = emailQueryResult.data[0].id;
         const firstName = emailQueryResult.data[0].first_name;
         const lastName = emailQueryResult.data[0].last_name;
@@ -117,7 +117,7 @@ exports.userLogin = async (req, res) => {
         res.status(200);
         res.json({ success: true, msg: "Log in successful", token: accessToken });
     } catch (error) {
-        res.status(404).json({ msg: "Email or Password is incorrect." });
+        res.status(404).json({ msg: "Email or Password is incorrect" });
     }
 };
 
