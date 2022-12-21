@@ -73,7 +73,7 @@ exports.getCriticallyAcclaimedGames = async (req, res) => {
     }
 };
 
-//
+
 exports.getHighestUserRatedGames = async (req, res) => {
     try {
 
