@@ -3,20 +3,12 @@
 module.exports = (app) => {
 
   const rawgApiController = require("../controllers/rawgApiController");
-
-  // const gamesController = require("../controllers/gamesController");
-  // const platformController = require("../controllers/platformController");
-  // const genreController = require("../controllers/genreController");
-  // const screenshotController = require("../controllers/screenshotController");
-  // const getGenreDetailsController = require("../controllers/genreDetailsController");
-  // const getPlatformDetailsContoller = require("../controllers/platformDetailsController");
-
   const GameController = require("../controllers/GameController");
   const userController = require("../controllers/userController");
 
   //Create endpoint to database
   app.route("/api/getGameDetailsFromApi").get(rawgApiController.getGameDetails);
-  
+
   app.route("/api/getGenreDetailsFromApi").get(rawgApiController.getGenreDetails);
 
   app.route("/api/getPlatformDetailsFromApi").get(rawgApiController.getPlatformDetails);
