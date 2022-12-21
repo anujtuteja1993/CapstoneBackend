@@ -83,4 +83,4 @@ DB_PORT=3306
 -   Also, change the DB_USER and DB_PASSWORD to your MySQL Server root Username and Password.
 **Launching the App:**
 -   To launch the app, open two separate terminal windows and change the directory to CapstoneFrontend and CapstoneBackend folders.
--   Type ‘npm start’ in the backend terminal, followed by ‘npm start’ in the frontend terminal and a browser window should automatically open and you should see the website. If it doesn’t automatically open the browser window, type in [http://localhost:3000/](http://localhost:3000/) in the browser’s address bar.# Welcome to StackEdit!
+-   Type ‘npm start’ in the backend terminal, followed by ‘npm start’ in the frontend terminal and a browser window should automatically open and you should see the website. If it doesn’t automatically open the browser window, type in [http://localhost:3000/](http://localhost:3000/) in the browser’s address bar.
